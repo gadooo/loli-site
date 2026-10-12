@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* 🎨 الألوان: عدّلها من هنا */
+:root {
+  --bg1: #f6f0ff; --bg2: #e6d9fb; --bg3: #fbe3ee;
+  --ink: #3d2a58; --soft: #7a62a0; --accent: #a874dd; --accent2: #e58bb4;
+}
+html, body, #root { min-height: 100%; }
+body {
+  margin: 0; color: var(--ink); font-family: 'Tajawal', system-ui, sans-serif;
+  background: linear-gradient(160deg, var(--bg1), var(--bg2) 55%, var(--bg3)) fixed;
+}
+.app { position: relative; min-height: 100dvh; overflow-x: hidden; }
+
+/* خلفية متحركة */
+.fx { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.fx span { position: absolute; opacity: .55; }
+.rise { bottom: -40px; animation: rise linear infinite; }
+.fall { top: -40px; animation: fall linear infinite; }
+@keyframes rise { to { transform: translate(var(--drift), -110vh) rotate(25deg); opacity: 0; } }
+@keyframes fall { to { transform: translate(var(--drift), 110vh) rotate(300deg); } }
+.burst { left: 50%; top: 58%; opacity: 1 !important; font-size: 22px; animation: burst 1.2s ease-out forwards; }
+@keyframes burst { to { transform: rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(.4); opacity: 0; } }
+
+/* شاشة البداية */
+.intro { position: relative; z-index: 1; min-height: 100dvh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px; padding: 24px; text-align: center; transition: opacity 1.2s, transform 1.2s; }
+.intro.is-leaving { opacity: 0; transform: scale(1.05); }
+.is-leaving .cta { animation: none; transform: scale(0); transition: transform .5s; }
+.title { font-family: 'Aref Ruqaa', serif; font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 0; line-height: 1.5; }
+.title.sm { font-size: clamp(1.7rem, 6vw, 2.4rem); text-align: center; }
+.sub { font-size: 1.15rem; color: var(--soft); margin: 0 0 14px; }
+.teddy-sway { animation: sway 4s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes sway { 50% { transform: rotate(4deg) translateY(-4px); } }
+.cta { border: 0; cursor: pointer; font: 700 1.15rem 'Tajawal'; color: #fff; padding: 16px 34px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); animation: pulse 2.4s ease-in-out infinite; }
+.cta.small { display: block; margin: 22px auto 0; font-size: 1rem; padding: 12px 26px; }
+.cta:focus-visible, .music-btn:focus-visible, button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(168,116,221,.5), 0 8px 24px rgba(168,116,221,.35); }
+  50% { box-shadow: 0 0 0 14px rgba(168,116,221,0), 0 8px 30px rgba(229,139,180,.5); transform: scale(1.03); } }
+
+/* الكرت */
+.stage { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 28px 16px 80px; animation: cinematic 1.6s ease-out both; }
+@keyframes cinematic { from { opacity: 0; transform: translateY(30px) scale(.94); filter: blur(8px); } }
+.card { position: relative; padding: 38px 24px 30px; border-radius: 28px; background: rgba(255,255,255,.55);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.8);
+  box-shadow: 0 18px 50px rgba(120,80,180,.2); }
+.corner { position: absolute; }
+.flower { font-size: 26px; top: -14px; } .tl { right: 18px; } .tr { left: 18px; }
+.teddy-corner { bottom: -22px; left: 10px; }
+.msg { white-space: pre-line; line-height: 2.1; font-size: 1.12rem; margin: 18px 0 0; min-height: 8em; }
+.caret { display: inline-block; width: 2px; height: 1em; background: var(--accent); margin-inline-start: 2px; vertical-align: middle; animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.last { margin-top: 26px; padding-top: 22px; border-top: 1px dashed var(--accent); animation: up 1.2s both; }
+.last h2 { font-family: 'Aref Ruqaa', serif; font-size: 1.5rem; margin: 0; color: var(--accent); }
+@keyframes up { from { opacity: 0; transform: translateY(16px); } }
+
+/* الوعد */
+.promise { margin-top: 56px; text-align: center; }
+.promise ul { list-style: none; padding: 0; margin: 22px 0; display: grid; gap: 12px; }
+.promise li { padding: 14px 18px; border-radius: 18px; background: rgba(255,255,255,.6); font-size: 1.08rem; opacity: 0; animation: up .9s forwards; }
+.promise-end { font-family: 'Aref Ruqaa', serif; font-size: 1.4rem; line-height: 1.9; color: var(--accent); opacity: 0; animation: up 1.2s forwards; }
+
+/* النهاية */
+.ending { margin-top: 56px; text-align: center; display: grid; justify-items: center; gap: 6px; font-size: 1.15rem; }
+.ending p { margin: 4px 0; } .ending .big { font: 700 2rem 'Aref Ruqaa'; color: var(--accent2); }
+
+/* مشغل الموسيقى */
+.music { position: fixed; top: max(14px, env(safe-area-inset-top)); left: 14px; z-index: 10; }
+.music-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #fff; background: rgba(255,255,255,.7); font-size: 20px; cursor: pointer; backdrop-filter: blur(8px); }
+.music-btn.on { animation: pulse 2.4s infinite; }
+.music-panel { margin-top: 8px; width: 210px; padding: 12px; border-radius: 16px; background: rgba(255,255,255,.85); backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(120,80,180,.25); display: grid; gap: 8px; font-size: .9rem; }
+.music-panel .row { display: flex; gap: 10px; align-items: center; }
+.music-panel .row button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; cursor: pointer; }
+.music-panel input { flex: 1; accent-color: var(--accent); }
+.bar { height: 4px; border-radius: 4px; background: #e6d9fb; } .bar i { display: block; height: 100%; border-radius: 4px; background: var(--accent); }
+
+/* تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .fx { display: none; } .promise li, .promise-end { opacity: 1; }
+}
